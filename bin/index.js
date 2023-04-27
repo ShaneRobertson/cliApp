@@ -171,11 +171,11 @@ async function checkAnswer(letter) {
   const spinner = createSpinner("Checking answer...").start();
   if (isCorrect) {
     await sleep();
+    guessCount--;
     alphabet.splice(alphabet.indexOf(letter), 1, "-");
     displayedWord.splice(word.indexOf(letter), 1, letter);
     await checkDuplicateLetters(letter);
     spinner.success({ text: `Got one ${playerName}! ` });
-    guessCount--;
     await checkGameOver();
     ui.log.write(`Guess Count: ${guessCount}`);
     ui.log.write(alphabet.join(" "));
@@ -201,8 +201,6 @@ async function checkDuplicateLetters(letterGuess) {
       displayedWord[i] = letterGuess;
     }
   }
-
-  await checkGameOver();
 }
 
 async function checkGameOver() {
