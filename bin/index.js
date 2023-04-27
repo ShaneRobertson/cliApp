@@ -223,15 +223,13 @@ async function checkGameOver() {
   if (guessCount === 0) {
     // === Make this text fancier 🤵🤵🤵🤵🤵
     gameOver = true;
-    // const loseMsg = chalkAnimation.pulse(`GAME OVER ${playerName}`);
+
     console.log(`☠️ ☠️ ☠️`);
     chalkAnimation.pulse(`GAME OVER`, 0.5);
     await sleep();
     process.exit(1);
   }
 }
-
-// console.clear();
 
 await askName();
 await gameIntro();
