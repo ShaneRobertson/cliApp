@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-import chalk from "chalk";
 import inquirer from "inquirer";
 import gradient from "gradient-string";
 import chalkAnimation from "chalk-animation";
@@ -44,6 +43,7 @@ const alphabet = [
 
 let guesses = [];
 const ui = new inquirer.ui.BottomBar();
+
 // ==> Allows animations to run for 2 seconds
 //      Could also use a setTimeout
 const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
@@ -51,17 +51,6 @@ const sleep = (ms = 2000) => new Promise((r) => setTimeout(r, ms));
 async function gameIntro() {
   chalkAnimation.rainbow(`Hello ${playerName}!`);
   await sleep();
-
-  // figlet.fonts(function (err, fonts) {
-  //   if (err) {
-  //     console.log("something went wrong...");
-  //     console.dir(err);
-  //     return;
-  //   }
-  //   console.dir(fonts);
-  // });
-
-  // let titleGradient = gradient("red", "white", "black");
 
   figlet.text(
     "HANGMAN",
@@ -109,7 +98,7 @@ async function askDifficulty() {
   difficulty_level = answers.difficulty_level;
   switch (answers.difficulty_level) {
     case 3:
-      guessCount = 1;
+      guessCount = 6;
       break;
     case 4:
       guessCount = 7;
@@ -131,7 +120,7 @@ async function getWord(lengthOfWord) {
     );
 
     word = result.split("");
-    console.log("The word is: ", word.join(""));
+    // console.log("The word is: ", word.join(""));
     for (let i = 0; i < word.length; i++) {
       displayedWord.push("-");
     }
@@ -171,7 +160,7 @@ async function checkAnswer(letter) {
   const spinner = createSpinner("Checking answer...").start();
   if (isCorrect) {
     await sleep();
-    guessCount--;
+
     alphabet.splice(alphabet.indexOf(letter), 1, "-");
     displayedWord.splice(word.indexOf(letter), 1, letter);
     await checkDuplicateLetters(letter);
@@ -206,12 +195,14 @@ async function checkDuplicateLetters(letterGuess) {
 async function checkGameOver() {
   if (word.join("") === displayedWord.join("")) {
     gameOver = true;
-    const msg = `Congrats, ${playerName}! `;
+    const msg = `Congratulations ${playerName}! `;
+    console.log(`The word is: ${word.join("")}`);
 
     figlet(msg, (err, data) => {
       console.log(gradient.pastel.multiline(data));
     });
     await sleep();
+    process.exit(1);
   }
 
   // process.exit => if 1 means exited with errors and kill the script.
@@ -222,7 +213,8 @@ async function checkGameOver() {
     // === Make this text fancier 🤵🤵🤵🤵🤵
     gameOver = true;
 
-    console.log(`☠️ ☠️ ☠️`);
+    console.log(`☠️ ☠️ ☠️ `);
+    console.log(`The word is: ${word.join("")}`);
     chalkAnimation.pulse(`GAME OVER`, 0.5);
     await sleep();
     process.exit(1);
