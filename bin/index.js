@@ -120,7 +120,7 @@ async function getWord(lengthOfWord) {
     );
 
     word = result.split("");
-    // console.log("The word is: ", word.join(""));
+
     for (let i = 0; i < word.length; i++) {
       displayedWord.push("-");
     }
@@ -210,7 +210,6 @@ async function checkGameOver() {
   // process.exit(1);
 
   if (guessCount === 0) {
-    // === Make this text fancier 🤵🤵🤵🤵🤵
     gameOver = true;
 
     console.log(`☠️ ☠️ ☠️ `);
@@ -229,12 +228,3 @@ await getWord(difficulty_level);
 while (!gameOver) {
   await askQuestion();
 }
-
-// figlet.fonts(function (err, fonts) {
-//   if (err) {
-//     console.log("something went wrong...");
-//     console.dir(err);
-//     return;
-//   }
-//   console.dir(fonts);
-// });
